@@ -23,6 +23,12 @@ res.redirect("/");  // after creating file we want to redirect to home page...
 })
 });
 
+app.post('/edit',(req ,res) =>{
+fs.rename(`./files/${req.body.previous}`,`./files/${req.body.new}`,function(err){
+    res.redirect("/");  // after creating file we want to redirect to home page... 
+    })
+});
+
 //Herew goes... the dynamic routing...
  
 app.get('/files/:filename',(req ,res) =>{   
@@ -30,6 +36,10 @@ fs.readFile(`./files/${req.params.filename}`,'utf8',function(err,filedata){ //le
     
     res.render("show",{filename: req.params.filename , filedata: filedata});
 })
+});
+
+app.get('/edit/:filename',(req ,res) =>{       
+    res.render("edit",{filename: req.params.filename});
 });
 
 app.post('/delete/:filename', (req, res) => {
